@@ -23,3 +23,13 @@ CREATE TABLE account (
 );
 
 CREATE SEQUENCE seq_account START WITH 1 INCREMENT BY 1;
+
+INSERT INTO account_type VALUES(nextval('seq_account_type'), 'CASH', 'Cash');
+INSERT INTO account_type VALUES(nextval('seq_account_type'), 'SAVINGS', 'Savings Account');
+INSERT INTO account_type VALUES(nextval('seq_account_type'), 'CURRENT', 'Current Account');
+INSERT INTO account_type VALUES(nextval('seq_account_type'), 'M_WALLET', 'Mobile Wallet');
+INSERT INTO account_type VALUES(nextval('seq_account_type'), 'O_WALLET', 'Online Wallet');
+INSERT INTO account_type VALUES(nextval('seq_account_type'), 'DEBIT_CARD', 'Debit Card');
+INSERT INTO account_type VALUES(nextval('seq_account_type'), 'CREDIT_CARD', 'Credit Card');
+INSERT INTO account_type VALUES(nextval('seq_account_type'), 'PREPAID_CARD', 'Pre-Paid Card');
+INSERT INTO account_type VALUES(nextval('seq_account_type'), 'GIFT_CARD', 'Gift Card');
