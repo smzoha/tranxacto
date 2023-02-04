@@ -2,6 +2,7 @@ package com.zedapps.txaccount.entity;
 
 import com.zedapps.txaccount.entity.enums.Status;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -60,6 +61,7 @@ public class Account implements Serializable {
     @Column(length = 16, nullable = false)
     private Status status;
 
+    @Min(value = 0L)
     private double openingBalance;
 
     private String organization;
