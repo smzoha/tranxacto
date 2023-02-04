@@ -1,5 +1,7 @@
 package com.zedapps.common.utils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.json.JSONObject;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
@@ -13,7 +15,9 @@ import java.util.stream.Collectors;
  */
 public class ResponseUtils {
 
-    public static JSONObject generateSuccessMage(String message, Object payload) {
+    public static String generateSuccessMage(String message, Object payload) {
+        Gson gson = new GsonBuilder().create();
+
         JSONObject successResponse = new JSONObject();
         successResponse.put("message", message);
 
@@ -21,10 +25,12 @@ public class ResponseUtils {
             successResponse.put("payload", payload);
         }
 
-        return successResponse;
+        return gson.toJson(successResponse);
     }
 
-    public static JSONObject generateErrorResponse(Errors errors) {
+    public static String generateErrorResponse(Errors errors) {
+        Gson gson = new GsonBuilder().create();
+
         JSONObject errorResponse = new JSONObject();
 
         if (!errors.getGlobalErrors().isEmpty()) {
@@ -49,6 +55,6 @@ public class ResponseUtils {
             errorResponse.put("field", fieldErrorMap);
         }
 
-        return errorResponse;
+        return gson.toJson(errorResponse);
     }
 }
