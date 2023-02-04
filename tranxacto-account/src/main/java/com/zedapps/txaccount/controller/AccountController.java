@@ -49,16 +49,16 @@ public class AccountController {
     }
 
     @PostMapping(value = "/update/{id}")
-    public Account updateAccount(Account Account, @PathVariable long id) {
+    public Account updateAccount(Account account, @PathVariable long id) {
         Optional<Account> origAccount = accountRepository.findById(id);
 
         if (origAccount.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid id passed for update!");
         }
 
-        Account.setId(origAccount.get().getId());
+        account.setId(origAccount.get().getId());
 
-        return accountRepository.save(Account);
+        return accountRepository.save(account);
     }
 
     @DeleteMapping(value = "/delete/{id}")

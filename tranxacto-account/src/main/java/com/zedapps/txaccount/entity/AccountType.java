@@ -39,5 +39,4 @@ public class AccountType implements Serializable {
     @Size(max = 512)
     @Column(length = 512, nullable = false)
     private String description;
-
 }

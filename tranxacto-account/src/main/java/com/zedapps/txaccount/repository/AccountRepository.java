@@ -11,6 +11,7 @@ import java.util.List;
  * @author Shamah M Zoha
  * @since 27-Jan-23
  */
+
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
 

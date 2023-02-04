@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Shamah M Zoha
  * @since 27-Jan-23
  */
+
 @SpringBootApplication
 public class AppRunner {
 
