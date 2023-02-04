@@ -71,4 +71,15 @@ public class Account implements Serializable {
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
+
+    @PrePersist
+    public void onPrePersist() {
+        this.setCreatedDate(new Date());
+        this.setUpdatedDate(new Date());
+    }
+
+    @PreUpdate
+    public void onPreUpdate() {
+        this.setUpdatedDate(new Date());
+    }
 }
