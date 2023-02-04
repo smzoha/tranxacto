@@ -64,9 +64,11 @@ public class Account implements Serializable {
 
     private String organization;
 
+    @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
 }

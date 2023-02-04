@@ -16,8 +16,8 @@ CREATE TABLE account (
     status VARCHAR(16) NOT NULL,
     opening_balance NUMERIC(10, 2) DEFAULT 0,
     organization VARCHAR(255),
-    created_date TIMESTAMP(6),
-    updated_date TIMESTAMP(6),
+    created_date TIMESTAMP(6) NOT NULL,
+    updated_date TIMESTAMP(6) NOT NULL,
     CONSTRAINT pk_account PRIMARY KEY (id),
     CONSTRAINT fk_account_type FOREIGN KEY (type) REFERENCES account_type(id)
 );
