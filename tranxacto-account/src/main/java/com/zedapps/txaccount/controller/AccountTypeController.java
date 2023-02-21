@@ -2,6 +2,7 @@ package com.zedapps.txaccount.controller;
 
 import com.zedapps.txaccount.entity.AccountType;
 import com.zedapps.txaccount.repository.AccountTypeRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,12 +40,12 @@ public class AccountTypeController {
     }
 
     @PostMapping(value = "/type/save")
-    public AccountType saveAccountType(AccountType accountType) {
+    public AccountType saveAccountType(@Valid @RequestBody AccountType accountType) {
         return accountTypeRepository.save(accountType);
     }
 
     @PostMapping(value = "/type/update/{id}")
-    public AccountType updateType(AccountType accountType, @PathVariable long id) {
+    public AccountType updateType(@Valid @RequestBody AccountType accountType, @PathVariable long id) {
         Optional<AccountType> origAccountType = accountTypeRepository.findById(id);
 
         if (origAccountType.isEmpty()) {
