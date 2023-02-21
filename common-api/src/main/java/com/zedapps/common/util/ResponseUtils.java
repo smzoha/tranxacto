@@ -16,18 +16,22 @@ import java.util.List;
 
 public class ResponseUtils {
 
+    public static final String ERROR_RESPONSE_TYPE_VALIDATION = "Validation Error";
+    public static final String VALIDATION_TYPE_GLOBAL = "global";
+    public static final String VALIDATION_TYPE_FIELD = "field";
+
     public static ErrorResponse getErrorResponse(Errors errors) {
         ErrorResponse errorResponse = new ErrorResponse(new Date(), HttpURLConnection.HTTP_BAD_REQUEST,
-                "Validation Error", null);
+                ERROR_RESPONSE_TYPE_VALIDATION, null);
 
         List<ErrorDto> errorList = new ArrayList<>();
 
         errors.getGlobalErrors().stream()
-                .map(error -> new ErrorDto("global", null, error.getDefaultMessage()))
+                .map(error -> new ErrorDto(VALIDATION_TYPE_GLOBAL, null, error.getDefaultMessage()))
                 .forEach(errorList::add);
 
         errors.getFieldErrors().stream()
-                .map(error -> new ErrorDto("field", error.getField(), error.getDefaultMessage()))
+                .map(error -> new ErrorDto(VALIDATION_TYPE_FIELD, error.getField(), error.getDefaultMessage()))
                 .forEach(errorList::add);
 
         errorResponse.setPayload(errorList);
