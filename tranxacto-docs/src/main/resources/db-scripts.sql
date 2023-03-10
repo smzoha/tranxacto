@@ -2,6 +2,7 @@ CREATE TABLE supporting_document (
     id          BIGINT       NOT NULL,
     name        VARCHAR(128) NOT NULL,
     size        BIGINT       NOT NULL,
+    type        VARCHAR(128) NOT NULL,
     upload_date TIMESTAMP(6) NOT NULL,
     data        BYTEA        NOT NULL,
     CONSTRAINT pk_supporting_document PRIMARY KEY (id)

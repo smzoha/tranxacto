@@ -46,6 +46,10 @@ public class SupportingDocument implements Serializable {
     private Long size;
 
     @NotNull
+    @Column(nullable = false)
+    private String type;
+
+    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date uploadDate;
@@ -55,9 +59,10 @@ public class SupportingDocument implements Serializable {
     @NotNull
     private byte[] data;
 
-    public SupportingDocument(String name, long size, byte[] data) {
+    public SupportingDocument(String name, long size, String type, byte[] data) {
         this.name = name;
         this.size = size;
+        this.type = type;
         this.data = data;
     }
 
