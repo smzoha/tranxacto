@@ -24,7 +24,8 @@ public class SupportingDocumentService {
 
     @Transactional
     public SupportingDocumentDto uploadFile(MultipartFile file) throws IOException {
-        SupportingDocument doc = new SupportingDocument(file.getOriginalFilename(), file.getSize(), file.getBytes());
+        SupportingDocument doc = new SupportingDocument(file.getOriginalFilename(), file.getSize(),
+                file.getContentType(), file.getBytes());
 
         doc = supportingDocumentRepository.save(doc);
 
