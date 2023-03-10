@@ -2,6 +2,8 @@ package com.zedapps.common.util;
 
 import com.zedapps.common.dto.ErrorDto;
 import com.zedapps.common.dto.ErrorResponse;
+import com.zedapps.common.dto.SupportingDocumentDto;
+import org.apache.commons.io.FileUtils;
 import org.springframework.validation.Errors;
 
 import java.net.HttpURLConnection;
@@ -37,5 +39,10 @@ public class ResponseUtils {
         errorResponse.setPayload(errorList);
 
         return errorResponse;
+    }
+
+    public static SupportingDocumentDto getSupportingDocumentResponse(long docId, String name, long size, Date uploadDate) {
+        String fileSize = FileUtils.byteCountToDisplaySize(size);
+        return new SupportingDocumentDto(docId, name, fileSize, uploadDate);
     }
 }

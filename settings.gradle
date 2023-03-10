@@ -1,2 +1,3 @@
 include 'tranxacto-account'
 include 'common-api'
+include 'tranxacto-docs'
