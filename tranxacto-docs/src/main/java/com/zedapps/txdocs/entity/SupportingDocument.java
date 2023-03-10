@@ -52,6 +52,12 @@ public class SupportingDocument implements Serializable {
     @NotNull
     private byte[] data;
 
+    public SupportingDocument(String name, long size, byte[] data) {
+        this.name = name;
+        this.size = size;
+        this.data = data;
+    }
+
     @PrePersist
     public void onPrePersist() {
         this.setUploadDate(new Date());
