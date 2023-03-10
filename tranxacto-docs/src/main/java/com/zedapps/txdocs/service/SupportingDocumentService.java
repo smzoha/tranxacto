@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Shamah M Zoha
@@ -22,6 +25,22 @@ public class SupportingDocumentService {
     @Autowired
     private SupportingDocumentRepository supportingDocumentRepository;
 
+    public List<SupportingDocumentDto> getFileList() {
+        return supportingDocumentRepository.findAll().stream()
+                .map(SupportingDocumentService::getSupportingDocumentDto)
+                .collect(Collectors.toList());
+    }
+
+    public Optional<SupportingDocument> getFile(long id) {
+        return supportingDocumentRepository.findById(id);
+    }
+
+    public SupportingDocumentDto getFileInfo(long id) {
+        Optional<SupportingDocument> file = getFile(id);
+
+        return file.map(SupportingDocumentService::getSupportingDocumentDto).orElse(null);
+    }
+
     @Transactional
     public SupportingDocumentDto uploadFile(MultipartFile file) throws IOException {
         SupportingDocument doc = new SupportingDocument(file.getOriginalFilename(), file.getSize(),
@@ -29,6 +48,10 @@ public class SupportingDocumentService {
 
         doc = supportingDocumentRepository.save(doc);
 
+        return getSupportingDocumentDto(doc);
+    }
+
+    private static SupportingDocumentDto getSupportingDocumentDto(SupportingDocument doc) {
         return ResponseUtils.getSupportingDocumentResponse(doc.getId(), doc.getName(), doc.getSize(), doc.getUploadDate());
     }
 }
