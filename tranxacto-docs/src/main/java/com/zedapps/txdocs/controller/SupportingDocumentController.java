@@ -1,6 +1,6 @@
 package com.zedapps.txdocs.controller;
 
-import com.zedapps.txdocs.entity.SupportingDocument;
+import com.zedapps.common.dto.SupportingDocumentDto;
 import com.zedapps.txdocs.service.SupportingDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class SupportingDocumentController {
     private SupportingDocumentService supportingDocumentService;
 
     @PostMapping("/upload")
-    private SupportingDocument upload(@RequestParam MultipartFile file) {
+    private SupportingDocumentDto upload(@RequestParam MultipartFile file) {
         try {
             return supportingDocumentService.uploadFile(file);
         } catch (IOException e) {

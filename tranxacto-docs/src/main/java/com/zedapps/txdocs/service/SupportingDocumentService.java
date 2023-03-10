@@ -1,5 +1,7 @@
 package com.zedapps.txdocs.service;
 
+import com.zedapps.common.dto.SupportingDocumentDto;
+import com.zedapps.common.util.ResponseUtils;
 import com.zedapps.txdocs.entity.SupportingDocument;
 import com.zedapps.txdocs.repository.SupportingDocumentRepository;
 import jakarta.transaction.Transactional;
@@ -21,9 +23,11 @@ public class SupportingDocumentService {
     private SupportingDocumentRepository supportingDocumentRepository;
 
     @Transactional
-    public SupportingDocument uploadFile(MultipartFile file) throws IOException {
+    public SupportingDocumentDto uploadFile(MultipartFile file) throws IOException {
         SupportingDocument doc = new SupportingDocument(file.getOriginalFilename(), file.getSize(), file.getBytes());
 
-        return supportingDocumentRepository.save(doc);
+        doc = supportingDocumentRepository.save(doc);
+
+        return ResponseUtils.getSupportingDocumentResponse(doc.getId(), doc.getName(), doc.getSize(), doc.getUploadDate());
     }
 }
