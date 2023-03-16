@@ -51,6 +51,11 @@ public class SupportingDocumentService {
         return getSupportingDocumentDto(doc);
     }
 
+    @Transactional
+    public void removeFile(SupportingDocument document) {
+        supportingDocumentRepository.delete(document);
+    }
+
     private static SupportingDocumentDto getSupportingDocumentDto(SupportingDocument doc) {
         return ResponseUtils.getSupportingDocumentResponse(doc.getId(), doc.getName(), doc.getSize(), doc.getUploadDate());
     }
