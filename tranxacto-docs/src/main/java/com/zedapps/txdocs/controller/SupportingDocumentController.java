@@ -65,4 +65,17 @@ public class SupportingDocumentController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=" + supportingDocument.get().getName())
                 .body(supportingDocument.get().getData());
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> removeFile(@PathVariable long id) {
+        Optional<SupportingDocument> document = supportingDocumentService.getFile(id);
+
+        if (document.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid id passed for deletion!");
+        }
+
+        supportingDocumentService.removeFile(document.get());
+
+        return ResponseEntity.ok("Successfully deleted!");
+    }
 }
