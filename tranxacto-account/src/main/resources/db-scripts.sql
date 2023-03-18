@@ -18,6 +18,7 @@ CREATE TABLE account (
     organization VARCHAR(255),
     created_date TIMESTAMP(6) NOT NULL,
     updated_date TIMESTAMP(6) NOT NULL,
+    document_id BIGINT,
     CONSTRAINT pk_account PRIMARY KEY (id),
     CONSTRAINT fk_account_type FOREIGN KEY (type) REFERENCES account_type(id)
 );
