@@ -41,8 +41,8 @@ public class ResponseUtils {
         return errorResponse;
     }
 
-    public static SupportingDocumentDto getSupportingDocumentResponse(long docId, String name, long size, Date uploadDate) {
+    public static SupportingDocumentDto getSupportingDocumentResponse(long docId, String name, String type, long size, Date uploadDate) {
         String fileSize = FileUtils.byteCountToDisplaySize(size);
-        return new SupportingDocumentDto(docId, name, fileSize, uploadDate);
+        return new SupportingDocumentDto(docId, name, type, fileSize, uploadDate);
     }
 }

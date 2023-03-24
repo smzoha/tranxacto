@@ -57,6 +57,7 @@ public class SupportingDocumentService {
     }
 
     private static SupportingDocumentDto getSupportingDocumentDto(SupportingDocument doc) {
-        return ResponseUtils.getSupportingDocumentResponse(doc.getId(), doc.getName(), doc.getSize(), doc.getUploadDate());
+        return ResponseUtils.getSupportingDocumentResponse(doc.getId(), doc.getName(), doc.getType(),
+                doc.getSize(), doc.getUploadDate());
     }
 }
