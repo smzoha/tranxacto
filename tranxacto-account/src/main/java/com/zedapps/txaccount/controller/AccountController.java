@@ -81,7 +81,7 @@ public class AccountController {
     }
 
     @PostMapping(value = "/attachDoc/{id}")
-    public Account attachDocument(@RequestParam MultipartFile document, @PathVariable long id) {
+    public Account attachDocument(@RequestPart MultipartFile document, @PathVariable long id) {
         Optional<Account> account = accountService.getAccount(id, false);
 
         if (account.isEmpty()) {

@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface SupportingDocumentService {
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SupportingDocumentDto uploadDocument(@RequestParam MultipartFile file);
+    public SupportingDocumentDto uploadDocument(@RequestPart MultipartFile file);
 
     @GetMapping("/info/{id}")
     public SupportingDocumentDto getDocumentInfo(@PathVariable long id);
