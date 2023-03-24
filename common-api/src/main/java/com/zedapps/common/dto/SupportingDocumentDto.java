@@ -25,6 +25,8 @@ public class SupportingDocumentDto implements Serializable {
 
     private String name;
 
+    private String type;
+
     private String size;
 
     private Date uploadDate;

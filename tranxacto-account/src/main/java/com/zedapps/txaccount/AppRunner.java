@@ -2,6 +2,7 @@ package com.zedapps.txaccount;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @author Shamah M Zoha
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
+@EnableFeignClients
 public class AppRunner {
 
     public static void main(String[] args) {

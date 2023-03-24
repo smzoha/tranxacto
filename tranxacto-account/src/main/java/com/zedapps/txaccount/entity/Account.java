@@ -1,5 +1,6 @@
 package com.zedapps.txaccount.entity;
 
+import com.zedapps.common.dto.SupportingDocumentDto;
 import com.zedapps.txaccount.entity.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -73,6 +74,11 @@ public class Account implements Serializable {
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
+
+    private Long documentId;
+
+    @Transient
+    private SupportingDocumentDto documentInfo;
 
     @PrePersist
     public void onPrePersist() {
