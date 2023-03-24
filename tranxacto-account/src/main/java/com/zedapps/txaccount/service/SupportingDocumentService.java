@@ -2,6 +2,7 @@ package com.zedapps.txaccount.service;
 
 import com.zedapps.common.dto.SupportingDocumentDto;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @FeignClient(value = "supporting-docs-api", path = "/docs")
 public interface SupportingDocumentService {
 
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SupportingDocumentDto uploadDocument(@RequestParam MultipartFile file);
 
     @GetMapping("/info/{id}")
