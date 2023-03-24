@@ -1,10 +1,13 @@
 package com.zedapps.txaccount.controller;
 
+import com.zedapps.common.dto.SupportingDocumentDto;
 import com.zedapps.txaccount.entity.Account;
 import com.zedapps.txaccount.service.AccountService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -86,6 +89,27 @@ public class AccountController {
         }
 
         return accountService.attachDocument(document, account.get());
+    }
+
+    @GetMapping(value = "/getDoc/{id}")
+    public ResponseEntity<?> getAccountDocument(@PathVariable long id) {
+        Optional<Account> account = accountService.getAccount(id, true);
+
+        if (account.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid id passed for deletion!");
+        }
+
+        if (Objects.isNull(account.get().getDocumentId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Account does not have document!");
+        }
+
+        byte[] documentContent = accountService.getAccountDocument(account.get());
+        SupportingDocumentDto documentInfo = account.get().getDocumentInfo();
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(documentInfo.getType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=" + documentInfo.getName())
+                .body(documentContent);
     }
 
     @DeleteMapping(value = "/detachDoc/{id}")

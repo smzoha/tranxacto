@@ -88,6 +88,10 @@ public class AccountService {
         return account;
     }
 
+    public byte[] getAccountDocument(Account account) {
+        return supportingDocumentService.downloadDocument(account.getDocumentId());
+    }
+
     private void setupSupportingDocuments(List<Account> accounts) {
         accounts.forEach(account -> {
             if (nonNull(account.getDocumentId())) {
