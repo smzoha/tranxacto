@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -73,5 +75,31 @@ public class AccountController {
         accountService.deleteAccount(account.get());
 
         return ResponseEntity.ok("Successfully deleted!");
+    }
+
+    @PostMapping(value = "/attachDoc/{id}")
+    public Account attachDocument(@RequestParam MultipartFile document, @PathVariable long id) {
+        Optional<Account> account = accountService.getAccount(id, false);
+
+        if (account.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid id passed for document attachment!");
+        }
+
+        return accountService.attachDocument(document, account.get());
+    }
+
+    @DeleteMapping(value = "/detachDoc/{id}")
+    public Account detachDocument(@PathVariable long id) {
+        Optional<Account> account = accountService.getAccount(id, false);
+
+        if (account.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid id passed for document detachment!");
+        }
+
+        if (Objects.isNull(account.get().getDocumentId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Account does not have document attached!");
+        }
+
+        return accountService.detachDocument(account.get());
     }
 }
