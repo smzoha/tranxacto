@@ -30,13 +30,7 @@ public class AccountTypeController {
 
     @GetMapping(value = "/type/{id}")
     public AccountType getAccountType(@PathVariable long id) {
-        Optional<AccountType> accountType = accountTypeRepository.findById(id);
-
-        if (accountType.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Type not found by id!");
-        }
-
-        return accountType.get();
+        return getType(id);
     }
 
     @PostMapping(value = "/type/save")
@@ -46,27 +40,27 @@ public class AccountTypeController {
 
     @PostMapping(value = "/type/update/{id}")
     public AccountType updateType(@Valid @RequestBody AccountType accountType, @PathVariable long id) {
-        Optional<AccountType> origAccountType = accountTypeRepository.findById(id);
+        AccountType origAccountType = getType(id);
 
-        if (origAccountType.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid id passed for update!");
-        }
-
-        accountType.setId(origAccountType.get().getId());
+        accountType.setId(origAccountType.getId());
 
         return accountTypeRepository.save(accountType);
     }
 
     @DeleteMapping(value = "/type/delete/{id}")
     public ResponseEntity<Object> deleteAccountType(@PathVariable long id) {
+        accountTypeRepository.delete(getType(id));
+
+        return ResponseEntity.ok("Successfully deleted!");
+    }
+
+    private AccountType getType(long id) {
         Optional<AccountType> accountType = accountTypeRepository.findById(id);
 
         if (accountType.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid id passed for deletion!");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account Type not found for id!");
         }
 
-        accountTypeRepository.delete(accountType.get());
-
-        return ResponseEntity.ok("Successfully deleted!");
+        return accountType.get();
     }
 }
