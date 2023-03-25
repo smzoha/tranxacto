@@ -54,28 +54,28 @@ public class SupportingDocumentController {
 
     @GetMapping("/download/{id}")
     public ResponseEntity<?> downloadFile(@PathVariable long id) {
-        Optional<SupportingDocument> supportingDocument = supportingDocumentService.getFile(id);
-
-        if (supportingDocument.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Document not found by id!");
-        }
+        SupportingDocument supportingDocument = getSupportingDocument(id);
 
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(supportingDocument.get().getType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=" + supportingDocument.get().getName())
-                .body(supportingDocument.get().getData());
+                .contentType(MediaType.parseMediaType(supportingDocument.getType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=" + supportingDocument.getName())
+                .body(supportingDocument.getData());
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> removeFile(@PathVariable long id) {
+        supportingDocumentService.removeFile(getSupportingDocument(id));
+
+        return ResponseEntity.ok("Successfully deleted!");
+    }
+
+    private SupportingDocument getSupportingDocument(long id) {
         Optional<SupportingDocument> document = supportingDocumentService.getFile(id);
 
         if (document.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid id passed for deletion!");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Document not found by id!");
         }
 
-        supportingDocumentService.removeFile(document.get());
-
-        return ResponseEntity.ok("Successfully deleted!");
+        return document.get();
     }
 }
