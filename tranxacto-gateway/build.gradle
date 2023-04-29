@@ -10,8 +10,13 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-gateway', version: '4.0.4'
+    implementation (group: 'org.springframework.cloud', name: 'spring-cloud-starter-gateway', version: '4.0.4') {
+        exclude group: 'com.google', module: 'gson'
+    }
+
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-client', version: '4.0.1'
+
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
 }
 
 dependencyManagement {
