@@ -68,6 +68,7 @@ public class Login implements Serializable {
     @ElementCollection
     @Column(name = "role")
     @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"))
+    @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
     public Login(LoginRequestDto loginRequestDto) {
