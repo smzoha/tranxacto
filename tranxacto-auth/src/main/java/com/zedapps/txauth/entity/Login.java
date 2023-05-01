@@ -1,5 +1,6 @@
 package com.zedapps.txauth.entity;
 
+import com.zedapps.common.dto.LoginRequestDto;
 import com.zedapps.txauth.entity.enums.Role;
 import com.zedapps.txauth.entity.enums.Status;
 import jakarta.persistence.*;
@@ -14,6 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Shamah M Zoha
@@ -67,4 +69,17 @@ public class Login implements Serializable {
     @Column(name = "role")
     @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"))
     private Set<Role> roles;
+
+    public Login(LoginRequestDto loginRequestDto) {
+        this.username = loginRequestDto.getUsername();
+        this.email = loginRequestDto.getEmail();
+        this.firstName = loginRequestDto.getFirstName();
+        this.lastName = loginRequestDto.getLastName();
+
+        this.status = Status.ACTIVE;
+
+        this.roles = loginRequestDto.getRoles().stream()
+                .map(Role::valueOf)
+                .collect(Collectors.toSet());
+    }
 }
