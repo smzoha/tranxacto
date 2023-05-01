@@ -5,6 +5,7 @@ import com.zedapps.common.dto.LoginResponseDto;
 import com.zedapps.common.util.ResponseUtils;
 import com.zedapps.txauth.entity.Login;
 import com.zedapps.txauth.entity.enums.Role;
+import com.zedapps.txauth.entity.enums.Status;
 import com.zedapps.txauth.repository.LoginRepository;
 import jakarta.transaction.Transactional;
 import org.apache.commons.lang.StringUtils;
@@ -55,7 +56,7 @@ public class LoginService {
     }
 
     @Transactional
-    public LoginResponseDto saveOrUpdateAccount(LoginRequestDto loginRequestDto) {
+    public LoginResponseDto save(LoginRequestDto loginRequestDto) {
         Login login = new Login(loginRequestDto);
 
         if (StringUtils.isNotBlank(loginRequestDto.getPlainPassword())) {
@@ -67,9 +68,48 @@ public class LoginService {
         return generateLoginResponse(login);
     }
 
+    @Transactional
+    public LoginResponseDto update(LoginRequestDto requestDto, Login originalLogin) {
+        updateLoginProperties(requestDto, originalLogin);
+
+        loginRepository.save(originalLogin);
+
+        return generateLoginResponse(originalLogin);
+    }
+
+    @Transactional
+    public LoginResponseDto updateStatus(Login login, Status status) {
+        login.setStatus(status);
+
+        loginRepository.save(login);
+
+        return generateLoginResponse(login);
+    }
+
     private static LoginResponseDto generateLoginResponse(Login login) {
         return ResponseUtils.getLoginResponse(login.getUsername(), login.getEmail(), login.getFirstName(),
                 login.getLastName(), login.getStatus().name(),
                 login.getRoles().stream().map(Role::name).collect(Collectors.toSet()));
+    }
+
+    private void updateLoginProperties(LoginRequestDto requestDto, Login login) {
+        if (!StringUtils.equals(login.getEmail(), requestDto.getEmail())) {
+            login.setEmail(requestDto.getEmail());
+        }
+
+        if (StringUtils.isNotBlank(requestDto.getPlainPassword())
+                && !passwordEncoder.matches(requestDto.getPlainPassword(), login.getPassword())) {
+            login.setPassword(passwordEncoder.encode(requestDto.getPlainPassword()));
+        }
+
+        if (!StringUtils.equals(login.getFirstName(), requestDto.getFirstName())) {
+            login.setFirstName(requestDto.getFirstName());
+        }
+
+        if (!StringUtils.equals(login.getLastName(), requestDto.getLastName())) {
+            login.setLastName(requestDto.getLastName());
+        }
+
+        login.setRoles(requestDto.getRoles().stream().map(Role::valueOf).collect(Collectors.toSet()));
     }
 }
