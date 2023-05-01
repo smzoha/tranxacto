@@ -2,6 +2,7 @@ package com.zedapps.common.util;
 
 import com.zedapps.common.dto.ErrorDto;
 import com.zedapps.common.dto.ErrorResponse;
+import com.zedapps.common.dto.LoginResponseDto;
 import com.zedapps.common.dto.SupportingDocumentDto;
 import org.apache.commons.io.FileUtils;
 import org.springframework.validation.Errors;
@@ -10,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Shamah M Zoha
@@ -39,6 +41,12 @@ public class ResponseUtils {
         errorResponse.setPayload(errorList);
 
         return errorResponse;
+    }
+
+    public static LoginResponseDto getLoginResponse(String username, String email, String firstName, String lastName,
+                                                    String status, Set<String> roles) {
+
+        return new LoginResponseDto(username, email, firstName, lastName, status, roles);
     }
 
     public static SupportingDocumentDto getSupportingDocumentResponse(long docId, String name, String type, long size, Date uploadDate) {
