@@ -46,7 +46,7 @@ public class ResponseUtils {
     public static LoginResponseDto getLoginResponse(String username, String email, String firstName, String lastName,
                                                     String status, Set<String> roles) {
 
-        return new LoginResponseDto(username, email, firstName, lastName, status, roles);
+        return new LoginResponseDto(username, status, email, firstName, lastName, roles);
     }
 
     public static SupportingDocumentDto getSupportingDocumentResponse(long docId, String name, String type, long size, Date uploadDate) {
