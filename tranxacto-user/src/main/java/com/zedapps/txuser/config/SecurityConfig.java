@@ -32,7 +32,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/user/auth/**", "/user/login/save").permitAll()
+                .requestMatchers("/user/auth/**", "/user/login/save", "/user/error").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtUsernamePasswordAuthFilter(authProvider()))
