@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 
@@ -65,6 +67,8 @@ public class JwtUsernamePasswordAuthFilter extends UsernamePasswordAuthenticatio
         String token = JwtUtils.getToken(username, roles, SecurityConfig.API_SECRET);
 
         response.addHeader("Authorization", "Bearer " + token);
+
+        setResponseBodyOnSuccess(response, username, token);
     }
 
     @Override
@@ -72,5 +76,15 @@ public class JwtUsernamePasswordAuthFilter extends UsernamePasswordAuthenticatio
             throws IOException, ServletException {
 
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication failed");
+    }
+
+    private void setResponseBodyOnSuccess(HttpServletResponse response, String username, String token) throws IOException {
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+
+        objectMapper.writeValue(response.getWriter(), new TokenResponse(username, token, System.currentTimeMillis()));
+    }
+
+    record TokenResponse(String username, String token, long timestamp) {
     }
 }
