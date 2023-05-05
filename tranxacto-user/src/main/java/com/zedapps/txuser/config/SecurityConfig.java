@@ -1,5 +1,6 @@
 package com.zedapps.txuser.config;
 
+import com.zedapps.txuser.filter.JwtUsernamePasswordAuthFilter;
 import com.zedapps.txuser.service.LoginDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,8 @@ public class SecurityConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public static String API_SECRET = "4E645267556B58703273357638792F413F4428472B4B6250655368566D597133";
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -32,6 +35,7 @@ public class SecurityConfig {
                 .requestMatchers("/user/auth/**", "/user/login/save").permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .addFilter(new JwtUsernamePasswordAuthFilter(authProvider()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();
