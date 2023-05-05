@@ -29,9 +29,12 @@ import java.util.List;
 public class JwtUsernamePasswordAuthFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationProvider authProvider;
+    private final ObjectMapper objectMapper;
 
-    public JwtUsernamePasswordAuthFilter(AuthenticationProvider authProvider) {
+    public JwtUsernamePasswordAuthFilter(AuthenticationProvider authProvider, ObjectMapper objectMapperr) {
         this.authProvider = authProvider;
+        this.objectMapper = objectMapperr;
+
         this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/auth/authenticate", HttpMethod.POST));
     }
 
@@ -40,7 +43,7 @@ public class JwtUsernamePasswordAuthFilter extends UsernamePasswordAuthenticatio
             throws AuthenticationException {
 
         try {
-            LoginRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDto.class);
+            LoginRequestDto requestDto = objectMapper.readValue(request.getInputStream(), LoginRequestDto.class);
 
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(requestDto.getUsername(),
                     requestDto.getPlainPassword(), Collections.emptyList());

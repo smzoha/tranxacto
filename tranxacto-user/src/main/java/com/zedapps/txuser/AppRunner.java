@@ -1,5 +1,6 @@
 package com.zedapps.txuser;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -21,5 +22,10 @@ public class AppRunner {
     @Bean("passwordEncoder")
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean("objectMapper")
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 }

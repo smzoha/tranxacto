@@ -1,5 +1,6 @@
 package com.zedapps.txuser.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zedapps.txuser.filter.JwtUsernamePasswordAuthFilter;
 import com.zedapps.txuser.service.LoginDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class SecurityConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     public static String API_SECRET = "4E645267556B58703273357638792F413F4428472B4B6250655368566D597133";
 
     @Bean
@@ -35,7 +39,7 @@ public class SecurityConfig {
                 .requestMatchers("/user/auth/**", "/user/login/save", "/user/error").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtUsernamePasswordAuthFilter(authProvider()))
+                .addFilter(new JwtUsernamePasswordAuthFilter(authProvider(), objectMapper))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();
