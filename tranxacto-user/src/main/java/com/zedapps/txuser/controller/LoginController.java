@@ -21,6 +21,7 @@ import java.util.Optional;
  */
 
 @RestController
+@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
