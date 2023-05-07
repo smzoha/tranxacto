@@ -6,4 +6,4 @@ gradle
 build
 
 # Ignore file containing secret key for authentication used in User API
-tranxacto-user/src/main/resources/secret.properties
+**/secret.properties

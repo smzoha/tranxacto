@@ -1,8 +1,10 @@
 package com.zedapps.txgateway.config;
 
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -13,7 +15,11 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 
 @Configuration
+@PropertySource("classpath:secret.properties")
 public class SecurityConfig {
+
+    @Value("${api.auth.secret}")
+    private String secret;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
