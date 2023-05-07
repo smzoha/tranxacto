@@ -1,6 +1,5 @@
 package com.zedapps.common.util;
 
-import com.zedapps.common.dto.LoginRequestDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,8 +19,6 @@ import java.util.List;
 
 public class JwtUtils {
 
-    private static final String API_SECRET = "";
-
     public static String getToken(String username, List<String> roles, String secret) {
         return Jwts.builder()
                 .setIssuer("com.zedapps.tranxacto")
@@ -33,13 +30,13 @@ public class JwtUtils {
                 .compact();
     }
 
-    public static String getUsername(String token) {
-        return getClaims(token).get("username", String.class);
+    public static String getUsername(String token, String secret) {
+        return getClaims(token, secret).get("username", String.class);
     }
 
     @SuppressWarnings("unchecked")
-    public static List<String> getRoles(String token) {
-        return (List<String>) getClaims(token).get("roles", List.class);
+    public static List<String> getRoles(String token, String secret) {
+        return (List<String>) getClaims(token, secret).get("roles", List.class);
     }
 
     private static Key getKey(String secret) {
@@ -52,8 +49,9 @@ public class JwtUtils {
         return Date.from(expirationTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    private static Claims getClaims(String token) {
+    private static Claims getClaims(String token, String secret) {
         return Jwts.parserBuilder()
+                .setSigningKey(getKey(secret))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
