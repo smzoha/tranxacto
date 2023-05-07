@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zedapps.txuser.filter.JwtUsernamePasswordAuthFilter;
 import com.zedapps.txuser.service.LoginDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +21,7 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 
 @Configuration
+@PropertySource("classpath:secret.properties")
 public class SecurityConfig {
 
     @Autowired
@@ -30,7 +33,8 @@ public class SecurityConfig {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public static String API_SECRET = "4E645267556B58703273357638792F413F4428472B4B6250655368566D597133";
+    @Value("${api.auth.secret}")
+    private String API_SECRET;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -39,7 +43,7 @@ public class SecurityConfig {
                 .requestMatchers("/user/auth/**", "/user/login/save", "/user/error").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtUsernamePasswordAuthFilter(authProvider(), objectMapper))
+                .addFilter(new JwtUsernamePasswordAuthFilter(authProvider(), objectMapper, API_SECRET))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();
