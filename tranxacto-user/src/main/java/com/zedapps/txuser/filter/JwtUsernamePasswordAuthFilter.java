@@ -33,9 +33,9 @@ public class JwtUsernamePasswordAuthFilter extends UsernamePasswordAuthenticatio
     private final ObjectMapper objectMapper;
     private final String secret;
 
-    public JwtUsernamePasswordAuthFilter(AuthenticationProvider authProvider, ObjectMapper objectMapperr, String secret) {
+    public JwtUsernamePasswordAuthFilter(AuthenticationProvider authProvider, ObjectMapper objectMapper, String secret) {
         this.authProvider = authProvider;
-        this.objectMapper = objectMapperr;
+        this.objectMapper = objectMapper;
         this.secret = secret;
 
         this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/auth/authenticate", HttpMethod.POST));
