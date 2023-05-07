@@ -47,11 +47,6 @@ public class LoginController {
         return loginResponse;
     }
 
-    @PostMapping("/save")
-    public LoginResponseDto saveLogin(@RequestBody LoginRequestDto requestDto) {
-        return loginService.save(requestDto);
-    }
-
     @PostMapping("/update/{username}")
     public LoginResponseDto updateLogin(@RequestBody LoginRequestDto requestDto, @PathVariable String username) {
         return loginService.update(requestDto, getLogin(username));
