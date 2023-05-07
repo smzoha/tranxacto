@@ -3,7 +3,6 @@ package com.zedapps.txuser.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zedapps.common.dto.LoginRequestDto;
 import com.zedapps.common.util.JwtUtils;
-import com.zedapps.txuser.config.SecurityConfig;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,10 +31,12 @@ public class JwtUsernamePasswordAuthFilter extends UsernamePasswordAuthenticatio
 
     private final AuthenticationProvider authProvider;
     private final ObjectMapper objectMapper;
+    private final String secret;
 
-    public JwtUsernamePasswordAuthFilter(AuthenticationProvider authProvider, ObjectMapper objectMapperr) {
+    public JwtUsernamePasswordAuthFilter(AuthenticationProvider authProvider, ObjectMapper objectMapperr, String secret) {
         this.authProvider = authProvider;
         this.objectMapper = objectMapperr;
+        this.secret = secret;
 
         this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/auth/authenticate", HttpMethod.POST));
     }
@@ -64,7 +65,7 @@ public class JwtUsernamePasswordAuthFilter extends UsernamePasswordAuthenticatio
         String username = auth.getName();
         List<String> roles = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-        String token = JwtUtils.getToken(username, roles, SecurityConfig.API_SECRET);
+        String token = JwtUtils.getToken(username, roles, secret);
 
         response.addHeader("Authorization", "Bearer " + token);
 
