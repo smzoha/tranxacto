@@ -65,7 +65,7 @@ public class Login implements Serializable {
     @Column(length = 64, nullable = false)
     private String lastName;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "role")
     @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"))
     @Enumerated(EnumType.STRING)

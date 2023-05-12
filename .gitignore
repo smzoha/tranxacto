@@ -4,3 +4,6 @@
 .gradle
 gradle
 build
+
+# Ignore file containing secret key for authentication used in User API
+**/resources/secret.properties

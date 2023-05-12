@@ -7,7 +7,6 @@ import com.zedapps.txuser.entity.enums.Status;
 import com.zedapps.txuser.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,13 +20,11 @@ import java.util.Optional;
  */
 
 @RestController
+@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
     private LoginService loginService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/all")
     public List<LoginResponseDto> getAllLogins() {
@@ -48,11 +45,6 @@ public class LoginController {
         }
 
         return loginResponse;
-    }
-
-    @PostMapping("/save")
-    public LoginResponseDto saveLogin(@RequestBody LoginRequestDto requestDto) {
-        return loginService.save(requestDto);
     }
 
     @PostMapping("/update/{username}")
