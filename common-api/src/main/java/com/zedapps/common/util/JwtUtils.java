@@ -1,6 +1,5 @@
 package com.zedapps.common.util;
 
-import com.zedapps.common.dto.LoginRequestDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
