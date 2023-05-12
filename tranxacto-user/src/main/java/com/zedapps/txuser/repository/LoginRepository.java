@@ -17,9 +17,9 @@ import java.util.Optional;
 public interface LoginRepository extends JpaRepository<Login, Long> {
 
     @Query("FROM Login WHERE status = 'ACTIVE'")
-    public List<Login> getActiveLogins();
+    List<Login> getActiveLogins();
 
     @Query("FROM Login WHERE username = :username")
-    public Optional<Login> findByUsername(String username);
+    Optional<Login> findByUsername(String username);
 
 }
