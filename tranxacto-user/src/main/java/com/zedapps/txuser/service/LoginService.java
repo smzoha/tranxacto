@@ -1,8 +1,8 @@
 package com.zedapps.txuser.service;
 
-import com.zedapps.common.dto.LoginRequestDto;
 import com.zedapps.common.dto.LoginResponseDto;
 import com.zedapps.common.util.ResponseUtils;
+import com.zedapps.txuser.dto.LoginRegistrationDto;
 import com.zedapps.txuser.entity.Login;
 import com.zedapps.txuser.entity.enums.Role;
 import com.zedapps.txuser.entity.enums.Status;
@@ -56,11 +56,11 @@ public class LoginService {
     }
 
     @Transactional
-    public LoginResponseDto save(LoginRequestDto loginRequestDto) {
-        Login login = new Login(loginRequestDto);
+    public LoginResponseDto save(LoginRegistrationDto registrationDto) {
+        Login login = new Login(registrationDto);
 
-        if (StringUtils.isNotBlank(loginRequestDto.getPlainPassword())) {
-            login.setPassword(passwordEncoder.encode(loginRequestDto.getPlainPassword()));
+        if (StringUtils.isNotBlank(registrationDto.getPassword())) {
+            login.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         }
 
         loginRepository.save(login);
@@ -69,8 +69,8 @@ public class LoginService {
     }
 
     @Transactional
-    public LoginResponseDto update(LoginRequestDto requestDto, Login originalLogin) {
-        updateLoginProperties(requestDto, originalLogin);
+    public LoginResponseDto update(LoginRegistrationDto registrationDto, Login originalLogin) {
+        updateLoginProperties(registrationDto, originalLogin);
 
         loginRepository.save(originalLogin);
 
@@ -92,24 +92,24 @@ public class LoginService {
                 login.getRoles().stream().map(Role::name).collect(Collectors.toSet()));
     }
 
-    private void updateLoginProperties(LoginRequestDto requestDto, Login login) {
-        if (!StringUtils.equals(login.getEmail(), requestDto.getEmail())) {
-            login.setEmail(requestDto.getEmail());
+    private void updateLoginProperties(LoginRegistrationDto registrationDto, Login login) {
+        if (!StringUtils.equals(login.getEmail(), registrationDto.getEmail())) {
+            login.setEmail(registrationDto.getEmail());
         }
 
-        if (StringUtils.isNotBlank(requestDto.getPlainPassword())
-                && !passwordEncoder.matches(requestDto.getPlainPassword(), login.getPassword())) {
-            login.setPassword(passwordEncoder.encode(requestDto.getPlainPassword()));
+        if (StringUtils.isNotBlank(registrationDto.getPassword())
+                && !passwordEncoder.matches(registrationDto.getPassword(), login.getPassword())) {
+            login.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         }
 
-        if (!StringUtils.equals(login.getFirstName(), requestDto.getFirstName())) {
-            login.setFirstName(requestDto.getFirstName());
+        if (!StringUtils.equals(login.getFirstName(), registrationDto.getFirstName())) {
+            login.setFirstName(registrationDto.getFirstName());
         }
 
-        if (!StringUtils.equals(login.getLastName(), requestDto.getLastName())) {
-            login.setLastName(requestDto.getLastName());
+        if (!StringUtils.equals(login.getLastName(), registrationDto.getLastName())) {
+            login.setLastName(registrationDto.getLastName());
         }
 
-        login.setRoles(requestDto.getRoles().stream().map(Role::valueOf).collect(Collectors.toSet()));
+        login.setRoles(registrationDto.getRoles().stream().map(Role::valueOf).collect(Collectors.toSet()));
     }
 }

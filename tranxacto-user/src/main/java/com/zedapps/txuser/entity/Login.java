@@ -1,6 +1,6 @@
 package com.zedapps.txuser.entity;
 
-import com.zedapps.common.dto.LoginRequestDto;
+import com.zedapps.txuser.dto.LoginRegistrationDto;
 import com.zedapps.txuser.entity.enums.Role;
 import com.zedapps.txuser.entity.enums.Status;
 import jakarta.persistence.*;
@@ -71,15 +71,15 @@ public class Login implements Serializable {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    public Login(LoginRequestDto loginRequestDto) {
-        this.username = loginRequestDto.getUsername();
-        this.email = loginRequestDto.getEmail();
-        this.firstName = loginRequestDto.getFirstName();
-        this.lastName = loginRequestDto.getLastName();
+    public Login(LoginRegistrationDto registrationDto) {
+        this.username = registrationDto.getUsername();
+        this.email = registrationDto.getEmail();
+        this.firstName = registrationDto.getFirstName();
+        this.lastName = registrationDto.getLastName();
 
         this.status = Status.ACTIVE;
 
-        this.roles = loginRequestDto.getRoles().stream()
+        this.roles = registrationDto.getRoles().stream()
                 .map(Role::valueOf)
                 .collect(Collectors.toSet());
     }

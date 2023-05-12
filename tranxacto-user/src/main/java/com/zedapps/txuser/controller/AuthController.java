@@ -1,7 +1,7 @@
 package com.zedapps.txuser.controller;
 
-import com.zedapps.common.dto.LoginRequestDto;
 import com.zedapps.common.dto.LoginResponseDto;
+import com.zedapps.txuser.dto.LoginRegistrationDto;
 import com.zedapps.txuser.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +22,7 @@ public class AuthController {
     private LoginService loginService;
 
     @PostMapping("/save")
-    public LoginResponseDto saveLogin(@RequestBody LoginRequestDto requestDto) {
-        return loginService.save(requestDto);
+    public LoginResponseDto saveLogin(@RequestBody LoginRegistrationDto registrationDto) {
+        return loginService.save(registrationDto);
     }
 }

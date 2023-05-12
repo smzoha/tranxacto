@@ -1,7 +1,7 @@
 package com.zedapps.txuser.controller;
 
-import com.zedapps.common.dto.LoginRequestDto;
 import com.zedapps.common.dto.LoginResponseDto;
+import com.zedapps.txuser.dto.LoginRegistrationDto;
 import com.zedapps.txuser.entity.Login;
 import com.zedapps.txuser.entity.enums.Status;
 import com.zedapps.txuser.service.LoginService;
@@ -48,8 +48,8 @@ public class LoginController {
     }
 
     @PostMapping("/update/{username}")
-    public LoginResponseDto updateLogin(@RequestBody LoginRequestDto requestDto, @PathVariable String username) {
-        return loginService.update(requestDto, getLogin(username));
+    public LoginResponseDto updateLogin(@RequestBody LoginRegistrationDto registrationDto, @PathVariable String username) {
+        return loginService.update(registrationDto, getLogin(username));
     }
 
     @PostMapping("/updateStatus/{username}/{status}")
